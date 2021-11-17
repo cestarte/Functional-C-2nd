@@ -12,26 +12,22 @@ sorted.Output();
 
 static class Sorting
 {
-  public static List<int> Quicksort(this List<int> list)
+  public static IEnumerable<int> Quicksort(this IEnumerable<int> list)
   {
     if (!list.Any()) return new List<int>();
 
     var pivot = list.First();
     var remaining = list.Skip(1);
 
-    // Console.WriteLine($"pivot = {pivot}");
-    // remaining.Output();
-
-    var less = remaining.Where(x => x < pivot).ToList();
-    var more = remaining.Where(x => x > pivot).ToList();
+    var less = remaining.Where(x => x <= pivot);
+    var more = remaining.Where(x => x > pivot);
 
     return less.Quicksort()
       .Concat(new List<int> { pivot })
-      .Concat(more.Quicksort())
-      .ToList();
+      .Concat(more.Quicksort());
   }
 
-  public static List<int> RandomNumbers()
+  public static IEnumerable<int> RandomNumbers()
   {
     var rand = new Random();
     return Enumerable.Range(1, 5)
